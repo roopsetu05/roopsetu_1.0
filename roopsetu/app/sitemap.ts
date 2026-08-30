@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getArticleSlugs } from '@/lib/mdx';
 
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://roopsetu.com';
 
