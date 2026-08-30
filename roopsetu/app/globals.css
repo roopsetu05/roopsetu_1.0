@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+.prose {
+  max-width: 65ch;
+  color: var(--foreground);
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  line-height: 1.75;
+}
+.prose a {
+  text-decoration: underline;
+  color: var(--primary);
+}
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.625em;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+:root {
+  --background: #fcf9f6;
+  --foreground: #292526;
+
+  --primary: #c9828d;
+  --primary-light: #f3dde0;
+
+  --muted: #77706f;
+  --border: #eadfdb;
+  --card: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

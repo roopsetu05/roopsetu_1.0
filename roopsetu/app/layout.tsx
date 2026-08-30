@@ -1,0 +1,44 @@
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
+
+import Header from "@/components/layout/Header";
+import MobileNav from "@/components/layout/MobileNav";
+import "./globals.css";
+import Footer from "@/components/layout/Footer";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://roopsetu.com'),
+  title: "RoopSetu — Beauty Inspiration",
+  description:
+    "Discover beautiful nail art, hairstyles and makeup ideas you'll want to try.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${inter.variable} ${playfair.variable}`}
+      >
+        <Header />
+
+        {children}
+        <Footer />
+        <MobileNav />
+      </body>
+    </html>
+  );
+}
