@@ -10,6 +10,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import EditorialListicle from '@/components/editorial/EditorialListicle';
 import EditorialHero from '@/components/editorial/EditorialHero';
+import HairstyleHero from '@/components/editorial/HairstyleHero';
+import HairstyleListicle from '@/components/editorial/HairstyleListicle';
 
 const components = {
   LinkButton,
@@ -18,6 +20,8 @@ const components = {
   NoticeBox,
   EditorialListicle,
   EditorialHero,
+  HairstyleHero,
+  HairstyleListicle,
 };
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -64,7 +68,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   return (
     <>
-      <article className="px-4 pt-2 pb-8 mx-auto md:px-6 w-full max-w-none">
+      <article className="px-4 pt-0 pb-8 mx-auto md:px-6 w-full max-w-7xl">
         <div className="prose prose-lg prose-gray max-w-none prose-headings:font-playfair prose-a:text-primary hover:prose-a:text-[#a85a66]">
           <MDXRemote source={content} components={components} />
         </div>
@@ -75,7 +79,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <p className="text-[#444444] text-[15px] leading-[1.8] mb-8 max-w-lg">
             We curate the best beauty, makeup, and hairstyle inspiration to help you discover your next favorite look. Follow us on Pinterest for daily updates!
           </p>
-          <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-[#d8cac6] rounded-full text-sm font-medium text-[#403a3a] transition hover:border-[#c9828d] hover:text-[#c9828d]">
+          <a href="https://in.pinterest.com/RoopSetu_26/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-[#d8cac6] rounded-full text-sm font-medium text-[#403a3a] transition hover:border-[#c9828d] hover:text-[#c9828d]">
             Follow on Pinterest <span className="ml-2">&rarr;</span>
           </a>
         </div>

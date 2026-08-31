@@ -23,6 +23,42 @@ export const nailIdeas = [
     image: "/images/nails/floral-nails-v2.jpg",
     href: "/articles/ultimate-nail-inspiration#floral-nails",
   },
+  {
+    title: "Matte Black Finishes",
+    category: "Matte",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Tortoiseshell Patterns",
+    category: "Pattern",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Neon Summer Accents",
+    category: "Neon",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Classic Red Manicure",
+    category: "Classic",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Holographic Glaze",
+    category: "Glaze",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Negative Space Details",
+    category: "Abstract",
+    image: "",
+    href: "#",
+  }
 ];
 
 export const hairIdeas = [
@@ -30,39 +66,123 @@ export const hairIdeas = [
     title: "Easy Waves for Everyday",
     category: "Easy",
     image: "/images/hair/easy-waves-v2.jpg",
-    href: "/articles/easy-hairstyles",
+    href: "/articles/ultimate-hairstyle-inspiration#easy-waves",
   },
   {
     title: "Elegant Long Hair Styles",
     category: "Long Hair",
     image: "/images/hair/long-hair-v2.jpg",
-    href: "/articles/long-hairstyles",
+    href: "/articles/ultimate-hairstyle-inspiration#long-hair",
   },
   {
     title: "Simple Braided Hairstyles",
     category: "Braids",
     image: "/images/hair/braids-v2.jpg",
-    href: "/articles/braided-hairstyles",
+    href: "/articles/ultimate-hairstyle-inspiration#braids",
   },
+  {
+    title: "Party Ready Updo",
+    category: "Updo",
+    image: "/images/hair/party-hair.jpg",
+    href: "#",
+  },
+  {
+    title: "Textured Bob Cut",
+    category: "Short Hair",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Sleek Ponytail",
+    category: "Sleek",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Messy Bun Tutorial",
+    category: "Casual",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Vintage Hollywood Curls",
+    category: "Glamour",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Half-Up Half-Down",
+    category: "Wedding",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Mermaid Waves",
+    category: "Summer",
+    image: "",
+    href: "#",
+  }
 ];
 
 export const makeupIdeas = [
   {
-    title: "Soft Glam Makeup",
+    title: "Elegant Indian Bridal",
+    category: "Bridal",
+    image: "/images/makeup/Elegant Indian Bridal Makeup Inspiration for Your Wedding Day.jpg",
+    href: "#",
+  },
+  {
+    title: "Espresso Soft Glam",
     category: "Soft Glam",
-    image: "/images/makeup/soft-glam-v2.jpg",
-    href: "/articles/soft-glam-makeup",
+    image: "/images/makeup/Espresso Makeup Look ☕ Rich Brown Soft Glam Beauty Inspiration.jpg",
+    href: "#",
   },
   {
-    title: "Natural Everyday Makeup",
+    title: "Bold Smokey Eyes",
+    category: "Bold",
+    image: "/images/makeup/Smokey Eyes Makeup Look 🖤 Bold Soft Glam Beauty Inspiration.jpg",
+    href: "#",
+  },
+  {
+    title: "No-Makeup Makeup Look",
+    category: "Natural",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Dewy Glass Skin",
+    category: "Skin",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Graphic Eyeliner",
+    category: "Edgy",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Classic Red Lip",
+    category: "Lips",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Sun-Kissed Bronzer",
+    category: "Summer",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Pastel Eyeshadow",
+    category: "Spring",
+    image: "",
+    href: "#",
+  },
+  {
+    title: "Monochromatic Peach",
     category: "Everyday",
-    image: "/images/makeup/everyday-v2.jpg",
-    href: "/articles/everyday-makeup",
-  },
-  {
-    title: "Simple Eye Makeup Ideas",
-    category: "Eyes",
-    image: "/images/makeup/eye-makeup-v2.jpg",
-    href: "/articles/eye-makeup",
-  },
+    image: "",
+    href: "#",
+  }
 ];

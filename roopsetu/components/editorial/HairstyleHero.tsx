@@ -24,7 +24,7 @@ const fadeUp: Variants = {
   }
 };
 
-export default function EditorialHero() {
+export default function HairstyleHero() {
   return (
     <motion.div 
       initial="hidden"
@@ -35,7 +35,7 @@ export default function EditorialHero() {
       {/* Category Badge */}
       <motion.div variants={fadeUp} className="mb-[10px]">
         <span className="inline-block px-4 py-1.5 bg-[#f5e6e8] text-gray-800 text-[11px] font-bold tracking-[0.25em] uppercase rounded-full">
-          Nails
+          Hair
         </span>
       </motion.div>
 
@@ -44,7 +44,7 @@ export default function EditorialHero() {
         variants={fadeUp} 
         className="text-4xl md:text-5xl lg:text-[4rem] font-medium font-playfair text-[#111111] text-center leading-[1.15] mb-8 max-w-4xl px-4 tracking-tight"
       >
-        4 Stunning Nail Designs You Need to Try This Season
+        3 Stunning Hairstyles You Need to Try This Season
       </motion.h1>
 
       {/* Author Metadata */}
@@ -60,7 +60,7 @@ export default function EditorialHero() {
         variants={fadeUp}
         className="text-[17px] md:text-xl text-[#444444] text-center max-w-3xl leading-[1.8] font-sans mb-12 px-4"
       >
-        Life is too short for boring manicures. Whether you are looking for an everyday minimalist vibe or a bold statement for the weekend, we’ve rounded up the only four nail art trends you need to know about right now—plus exactly how to recreate them at home.
+        Whether you are looking for an effortless everyday wave or an elegant braided updo for the weekend, we’ve rounded up the only three hair trends you need to know about right now—plus exactly how to recreate them at home.
       </motion.p>
 
       {/* Hero Image */}
@@ -69,8 +69,8 @@ export default function EditorialHero() {
         className="relative w-full max-w-5xl aspect-square sm:aspect-[2/1] md:aspect-[21/9] rounded-none sm:rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.06)] mb-2"
       >
         <Image 
-          src="/images/nails/pink-chrome-v3.jpg" 
-          alt="Soft Pink Chrome Nails" 
+          src="/images/hair/easy-waves-v2.jpg" 
+          alt="Effortless Waves" 
           fill 
           className="object-cover object-center"
           priority

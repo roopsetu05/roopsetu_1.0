@@ -38,6 +38,8 @@ export default function BeautyCarousel({ items }: { items: BeautyItem[] }) {
     }
   };
 
+  const cardWidthClass = "w-[calc(33.333%-11px)] sm:w-[calc(33.333%-16px)]";
+
   return (
     <div className="relative group">
       {/* Scroll Buttons - Hidden on Mobile, Visible on Hover on Desktop */}
@@ -68,8 +70,8 @@ export default function BeautyCarousel({ items }: { items: BeautyItem[] }) {
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 sm:gap-6"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {items.map((item) => (
-          <div key={item.href} className="w-[calc(33.333%-11px)] sm:w-[calc(33.333%-16px)] shrink-0 snap-start">
+        {items.map((item, index) => (
+          <div key={item.title || index} className={`${cardWidthClass} shrink-0 snap-start`}>
             <BeautyCard {...item} />
           </div>
         ))}

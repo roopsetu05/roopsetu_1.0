@@ -27,7 +27,7 @@ export default function Header() {
             alt="RoopSetu" 
             width={500} 
             height={150} 
-            className="w-[180px] sm:w-[220px] h-auto object-contain"
+            className="w-[130px] sm:w-[160px] h-auto object-contain"
             priority
           />
         </Link>

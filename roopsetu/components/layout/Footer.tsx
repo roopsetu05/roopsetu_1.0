@@ -32,11 +32,15 @@ export default function Footer() {
 
               {/* Pinterest */}
               <a
-                href="https://pinterest.com"
+                href="https://in.pinterest.com/RoopSetu_26/"
                 aria-label="Pinterest"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#eadfdb] text-sm font-semibold text-[#292526] transition hover:bg-[#f3dde0]"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#eadfdb] text-[#403a3a] transition hover:bg-[#c9828d] hover:text-white hover:border-[#c9828d]"
               >
-                P
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.279 1.14c-.038.154-.127.189-.286.115-1.068-.498-1.736-2.066-1.736-3.332 0-2.71 1.968-5.204 5.679-5.204 2.99 0 5.318 2.131 5.318 4.975 0 2.973-1.874 5.367-4.477 5.367-1.396 0-2.709-.726-3.159-1.583 0 0-.691 2.632-.858 3.275-.31 1.197-1.15 2.693-1.714 3.606 1.34.409 2.76.629 4.237.629 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
+                </svg>
               </a>
 
             </div>

@@ -52,13 +52,6 @@ export default function BeautySection({
 
       <BeautyCarousel items={items} />
 
-      <Link
-        href={href}
-        className="mt-8 flex items-center justify-center gap-2 rounded-full border border-[#e4d8d4] bg-white px-5 py-3 text-sm font-medium text-[#403a3a] transition hover:border-[#c9828d] hover:text-[#c9828d] sm:hidden"
-      >
-        Explore {title}
-        <ArrowRight size={16} strokeWidth={1.8} />
-      </Link>
     </section>
   );
 }
