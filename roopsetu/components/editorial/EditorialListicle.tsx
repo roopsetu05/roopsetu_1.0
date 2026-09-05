@@ -78,7 +78,7 @@ export default function EditorialListicle() {
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={fadeInUp}
-              className="relative w-full aspect-square rounded-xl overflow-hidden mb-6 shadow-sm"
+              className="relative w-full aspect-square rounded-lg overflow-hidden mb-6 shadow-sm"
             >
               <Image src={section.image} alt={section.heading} fill className="object-cover" sizes="100vw" />
             </motion.div>
@@ -131,7 +131,7 @@ export default function EditorialListicle() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeInUp}
-                className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg"
+                className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-lg"
               >
                 <Image src={section.image} alt={section.heading} fill className="object-cover" sizes="40vw" priority={index === 0} />
               </motion.div>

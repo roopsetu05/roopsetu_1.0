@@ -128,19 +128,19 @@ export const makeupIdeas = [
   {
     title: "Elegant Indian Bridal",
     category: "Bridal",
-    image: "/images/makeup/Elegant Indian Bridal Makeup Inspiration for Your Wedding Day.jpg",
+    image: "/images/makeup/bridal-makeup.jpg",
     href: "#",
   },
   {
     title: "Espresso Soft Glam",
     category: "Soft Glam",
-    image: "/images/makeup/Espresso Makeup Look ☕ Rich Brown Soft Glam Beauty Inspiration.jpg",
+    image: "/images/makeup/espresso-makeup.jpg",
     href: "#",
   },
   {
     title: "Bold Smokey Eyes",
     category: "Bold",
-    image: "/images/makeup/Smokey Eyes Makeup Look 🖤 Bold Soft Glam Beauty Inspiration.jpg",
+    image: "/images/makeup/smokey-eyes.jpg",
     href: "#",
   },
   {

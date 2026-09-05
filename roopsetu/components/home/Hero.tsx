@@ -1,54 +1,71 @@
-import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
+import { motion, type MotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { heroScenes, type HeroScene } from "./hero/heroScenes";
+
+type SceneProps = { scene: HeroScene; sceneIndex: number; progress: MotionValue<number> };
+type ImagePositionStyle = React.CSSProperties & { "--desktop-object-position": string; "--mobile-object-position": string };
+
+function HeroScene({ scene, sceneIndex, progress }: SceneProps) {
+  const total = heroScenes.length;
+  const start = sceneIndex / total;
+  const end = (sceneIndex + 1) / total;
+  const transition = 0.045;
+  const range = sceneIndex === 0 ? [0, end - transition, end] : sceneIndex === total - 1 ? [start - transition, start, 1] : [start - transition, start, end - transition, end];
+  const opacity = useTransform(progress, range, sceneIndex === 0 ? [1, 1, 0] : sceneIndex === total - 1 ? [0, 1, 1] : [0, 1, 1, 0], { clamp: true });
+  const scale = useTransform(progress, range, sceneIndex === 0 ? [1, 1.035, 1.045] : sceneIndex === total - 1 ? [1.035, 1, 1.035] : [1.035, 1, 1.035, 1.045], { clamp: true });
+  const textY = useTransform(progress, range, sceneIndex === 0 ? [0, 0, -15] : sceneIndex === total - 1 ? [20, 0, -10] : [20, 0, 0, -15], { clamp: true });
+  const imagePosition: ImagePositionStyle = { "--desktop-object-position": scene.desktopObjectPosition, "--mobile-object-position": scene.mobileObjectPosition };
+
+  return (
+    <motion.article className="hero-scene" style={{ opacity, zIndex: sceneIndex + 1 }}>
+      <motion.div className="hero-image" style={{ scale }}>
+        <Image src={scene.image} alt={`${scene.category} — ${scene.title.replace("\n", " ")}`} fill className="object-cover hero-image-media" style={imagePosition} sizes="100vw" preload={sceneIndex === 0} quality={88} />
+      </motion.div>
+      <div className="hero-image-shade" />
+      <motion.div className="hero-copy" style={{ y: textY }}>
+        <p className="hero-category">{scene.category}</p>
+        <h2>{scene.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h2>
+        <p className="hero-description">{scene.description}</p>
+      </motion.div>
+    </motion.article>
+  );
+}
+
+function ReducedHero() {
+  const scene = heroScenes[0];
+  const imagePosition: ImagePositionStyle = { "--desktop-object-position": scene.desktopObjectPosition, "--mobile-object-position": scene.mobileObjectPosition };
+  return (
+    <section className="hero-reduced" aria-label="Beauty inspiration">
+      <Image src={scene.image} alt={`${scene.category} — ${scene.title.replace("\n", " ")}`} fill className="object-cover hero-image-media" style={imagePosition} preload />
+      <div className="hero-image-shade" />
+      <div className="hero-copy"><p className="hero-category">{scene.category}</p><h1>{scene.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h1><p className="hero-description">{scene.description}</p></div>
+    </section>
+  );
+}
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end end"] });
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    const nextIndex = Math.min(Math.floor(value * heroScenes.length), heroScenes.length - 1);
+    setActiveIndex((currentIndex) => currentIndex === nextIndex ? currentIndex : nextIndex);
+  });
+
+  if (reducedMotion) return <ReducedHero />;
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8 lg:pb-20 lg:pt-20">
-
-        <div className="mx-auto max-w-3xl text-center">
-
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#c9828d] sm:text-xs">
-            ROOPSETU BEAUTY
-          </p>
-
-          <h1 className="font-serif text-[38px] leading-[1.08] tracking-[-0.035em] text-[#292526] sm:text-5xl lg:text-6xl">
-            Discover your next
-            <span className="block text-[#c9828d]">
-              beauty look.
-            </span>
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-7 text-[#77706f] sm:text-base">
-            Beautiful nail art, hairstyles and makeup inspiration
-            you&apos;ll actually want to try.
-          </p>
-
-          {/* Search */}
-          <div className="mx-auto mt-7 max-w-xl">
-            <Link
-              href="/search"
-              className="flex h-14 items-center gap-3 rounded-full border border-[#e5d9d5] bg-white px-5 text-left shadow-[0_8px_30px_rgba(80,50,50,0.05)] transition hover:border-[#c9828d]"
-            >
-              <Search
-                size={19}
-                strokeWidth={1.8}
-                className="shrink-0 text-[#8c8280]"
-              />
-
-              <span className="flex-1 text-sm text-[#928987]">
-                Search nail, hair or makeup ideas...
-              </span>
-
-              <ArrowRight
-                size={18}
-                strokeWidth={1.8}
-                className="text-[#c9828d]"
-              />
-            </Link>
-          </div>
-
-        </div>
+    <section className="hero-outer" ref={heroRef} aria-label="Beauty inspiration">
+      <div className="hero-sticky">
+        <h1 className="sr-only">RoopSetu — Beauty inspiration, beautifully discovered.</h1>
+        <div className="hero-scenes-container">{heroScenes.map((scene, index) => <HeroScene key={scene.id} scene={scene} sceneIndex={index} progress={scrollYProgress} />)}</div>
+        <div className="hero-progress" aria-live="polite"><span>{String(activeIndex + 1).padStart(2, "0")} / {String(heroScenes.length).padStart(2, "0")}</span><small>{heroScenes[activeIndex].category}</small></div>
+        {activeIndex === 0 && <span className="hero-scroll-cue" aria-hidden="true">Scroll <i>↓</i></span>}
       </div>
     </section>
   );

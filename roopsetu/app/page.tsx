@@ -1,7 +1,7 @@
 import Hero from "@/components/home/Hero";
 import CategoryTabs from "@/components/home/CategoryTabs";
+import BeautyDiscovery from "@/components/home/BeautyDiscovery";
 import BeautySection from "@/components/home/BeautySection";
-import ShopLook from "@/components/home/ShopLook";
 import {
   nailIdeas,
   hairIdeas,
@@ -15,6 +15,8 @@ export default function Home() {
       {/* Hero */}
       <Hero />
 
+      <BeautyDiscovery />
+
       {/* Main categories */}
       <CategoryTabs />
 
@@ -24,6 +26,7 @@ export default function Home() {
         description="From minimal French tips to glossy chrome finishes, find your next manicure idea."
         href="/articles/ultimate-nail-inspiration"
         items={nailIdeas}
+        reverse
       />
 
       {/* Hair inspiration */}
@@ -42,8 +45,8 @@ export default function Home() {
         description="Discover everyday makeup, soft glam and statement looks."
         href="/makeup"
         items={makeupIdeas}
+        reverse
       />
-      <ShopLook />
     </main>
   );
 }

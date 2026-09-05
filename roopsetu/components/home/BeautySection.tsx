@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import BeautyCarousel from "@/components/home/BeautyCarousel";
+import { motion } from "framer-motion";
 
 interface BeautyItem {
   title: string;
@@ -15,6 +18,7 @@ interface BeautySectionProps {
   description: string;
   href: string;
   items: BeautyItem[];
+  reverse?: boolean;
 }
 
 export default function BeautySection({
@@ -23,35 +27,42 @@ export default function BeautySection({
   description,
   href,
   items,
+  reverse = false,
 }: BeautySectionProps) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div className="mb-7 flex items-end justify-between gap-5">
+    <motion.section 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-16"
+    >
+      <div className={`mb-7 flex flex-col gap-5 sm:items-end sm:justify-between ${reverse ? "sm:flex-row-reverse" : "sm:flex-row"}`}>
         <div className="max-w-xl">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#c9828d]">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#c9828d]">
             {eyebrow}
           </p>
 
-          <h2 className="font-serif text-3xl leading-tight tracking-[-0.025em] text-[#292526] sm:text-4xl">
+          <h2 className="font-serif text-[34px] leading-[1.1] tracking-[-0.02em] text-[#292526] sm:text-5xl">
             {title}
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-[#77706f]">
+          <p className="mt-4 text-[15px] leading-relaxed text-[#77706f]">
             {description}
           </p>
         </div>
 
         <Link
-          href={href}
-          className="hidden shrink-0 items-center gap-1.5 text-sm font-medium text-[#403a3a] transition hover:text-[#c9828d] sm:flex"
-        >
-          See all
-          <ArrowRight size={16} strokeWidth={1.8} />
-        </Link>
+            href={href}
+            className="group shrink-0 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#2B1B20] transition-colors hover:text-[#7A0B2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4"
+          >
+            See all
+            <ArrowRight size={15} strokeWidth={1.8} className="transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
       </div>
 
       <BeautyCarousel items={items} />
 
-    </section>
+    </motion.section>
   );
 }

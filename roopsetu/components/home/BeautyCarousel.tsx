@@ -38,7 +38,7 @@ export default function BeautyCarousel({ items }: { items: BeautyItem[] }) {
     }
   };
 
-  const cardWidthClass = "w-[calc(33.333%-11px)] sm:w-[calc(33.333%-16px)]";
+  const cardWidthClass = "w-[calc(33.333%-11px)] sm:w-[calc(33.333%-16px)] md:w-[calc(25%-18px)]";
 
   return (
     <div className="relative group">
@@ -46,20 +46,20 @@ export default function BeautyCarousel({ items }: { items: BeautyItem[] }) {
       {canScrollLeft && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-[40%] -translate-y-1/2 -translate-x-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-gray-600 transition hover:bg-gray-50 hover:text-primary sm:opacity-0 sm:group-hover:opacity-100"
+          className="absolute left-0 top-[40%] -translate-y-1/2 -translate-x-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(41,37,38,0.12)] border border-white/60 text-[#403a3a] transition-all hover:bg-white hover:text-[#c9828d] hover:scale-110 sm:opacity-0 sm:group-hover:opacity-100"
           aria-label="Scroll left"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={24} strokeWidth={2} />
         </button>
       )}
 
       {canScrollRight && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-[40%] -translate-y-1/2 translate-x-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-gray-600 transition hover:bg-gray-50 hover:text-primary sm:opacity-0 sm:group-hover:opacity-100"
+          className="absolute right-0 top-[40%] -translate-y-1/2 translate-x-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(41,37,38,0.12)] border border-white/60 text-[#403a3a] transition-all hover:bg-white hover:text-[#c9828d] hover:scale-110 sm:opacity-0 sm:group-hover:opacity-100"
           aria-label="Scroll right"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={24} strokeWidth={2} />
         </button>
       )}
 
