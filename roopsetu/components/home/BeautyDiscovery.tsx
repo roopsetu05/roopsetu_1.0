@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 type LookItem = {
@@ -17,6 +17,7 @@ type LookCategory = {
   id: string;
   label: string;
   href: string;
+  tagline: string; // short sentence describing the category
   items: LookItem[];
 };
 
@@ -25,6 +26,7 @@ const categories: LookCategory[] = [
     id: "nail-art",
     label: "Nail Art",
     href: "/nails",
+    tagline: "Chrome finishes, floral details & modern French tips.",
     items: [
       { id: "pink-chrome", alt: "Pink chrome nail art", image: "/images/nails/pink-chrome-v3.jpg" },
       { id: "lavender-marble", alt: "Lavender marble nail art", image: "/images/nails/lavender-marble-nails.jpg" },
@@ -37,6 +39,7 @@ const categories: LookCategory[] = [
     id: "makeup",
     label: "Makeup",
     href: "/makeup",
+    tagline: "Smokey glam, soft dewy looks & bridal beauty.",
     items: [
       { id: "smokey-eyes", alt: "Smokey eye makeup", image: "/images/makeup/smokey-eyes.jpg", objectPosition: "center 20%" },
       { id: "espresso-glam", alt: "Espresso soft glam makeup", image: "/images/makeup/espresso-makeup.jpg" },
@@ -49,6 +52,7 @@ const categories: LookCategory[] = [
     id: "hairstyles",
     label: "Hairstyles",
     href: "/hairstyles",
+    tagline: "Effortless waves, elegant updos & bridal braids.",
     items: [
       { id: "easy-waves", alt: "Easy waves hairstyle", image: "/images/hair/easy-waves-v2.jpg" },
       { id: "braided-style", alt: "Soft braided hairstyle", image: "/images/hair/braids-v2.jpg" },
@@ -61,6 +65,7 @@ const categories: LookCategory[] = [
     id: "fashion",
     label: "Fashion",
     href: "/articles",
+    tagline: "Traditional looks, saree drapes & festive styling.",
     items: [
       { id: "blush-saree-fashion", alt: "Blush bridal saree fashion", image: "/images/makeup/blush-bridal-saree.jpg", objectPosition: "center 18%" },
       { id: "bridal-style", alt: "Bridal fashion look", image: "/images/makeup/bridal-makeup.jpg", objectPosition: "center 18%" },
@@ -73,6 +78,7 @@ const categories: LookCategory[] = [
     id: "mehndi",
     label: "Mehndi",
     href: "/articles",
+    tagline: "Intricate patterns, floral motifs & bridal designs.",
     items: [
       { id: "floral-pattern", alt: "Floral pattern inspiration", image: "/images/nails/floral-nails-v2.jpg" },
       { id: "rose-pattern", alt: "Rose detail inspiration", image: "/images/nails/rose-quartz-nails.jpg" },
@@ -85,15 +91,19 @@ const categories: LookCategory[] = [
     id: "bridal",
     label: "Bridal",
     href: "/articles",
+    tagline: "Dream wedding beauty — makeup, hair & jewellery.",
     items: [
       { id: "bridal-face", alt: "Bridal beauty inspiration", image: "/images/makeup/bridal-makeup.jpg", objectPosition: "center 18%" },
       { id: "bridal-saree", alt: "Bridal saree inspiration", image: "/images/makeup/blush-bridal-saree.jpg", objectPosition: "center 18%" },
       { id: "bridal-bun-look", alt: "Rose bridal bun hairstyle", image: "/images/makeup/bridal-bun.jpg", objectPosition: "center 18%" },
       { id: "bridal-half-up", alt: "Half-up bridal hairstyle", image: "/images/hair/Elegant Half-Up Bridal Hairstyle with Soft Waves for Weddings.jpg", objectPosition: "center 20%" },
-      { id: "bridal-braid", alt: "Traditional bridal braid", image: "/images/hair/Elegant Traditional Half-Up Braided Hairstyle for Weddings & Festive Celebrations âœ¨.jpg", objectPosition: "center 20%" },
+      { id: "bridal-braid", alt: "Traditional bridal braid", image: "/images/hair/Elegant Traditional Half-Up Braided Hairstyle for Weddings & Festive Celebrations \u2728.jpg", objectPosition: "center 20%" },
     ],
   },
 ];
+
+const AUTO_ADVANCE_MS = 3800;
+const PAUSE_AFTER_INTERACTION_MS = 6000;
 
 export default function BeautyDiscovery() {
   const [activeCategoryId, setActiveCategoryId] = useState(categories[0].id);
@@ -101,18 +111,77 @@ export default function BeautyDiscovery() {
   const [direction, setDirection] = useState(1);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => new Set());
   const reducedMotion = useReducedMotion();
-  const activeCategory = categories.find((category) => category.id === activeCategoryId) ?? categories[0];
+
+  const activeCategory = categories.find((c) => c.id === activeCategoryId) ?? categories[0];
   const activeImage = activeCategory.items[activeImageIndex];
+
+  // ── Auto-advance timer ──
+  const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useRef(false);
+  const isPaused = useRef(false);
+
+  const advanceImage = useCallback(() => {
+    setDirection(1);
+    setActiveImageIndex((prev) => {
+      const cat = categories.find((c) => c.id === activeCategoryId) ?? categories[0];
+      return (prev + 1) % cat.items.length;
+    });
+  }, [activeCategoryId]);
+
+  const startAutoAdvance = useCallback(() => {
+    if (autoTimer.current) clearInterval(autoTimer.current);
+    isPaused.current = false;
+    autoTimer.current = setInterval(() => {
+      if (!isInView.current || isPaused.current) return;
+      advanceImage();
+    }, AUTO_ADVANCE_MS);
+  }, [advanceImage]);
+
+  const pauseAutoAdvance = useCallback(() => {
+    isPaused.current = true;
+    if (pauseTimer.current) clearTimeout(pauseTimer.current);
+    pauseTimer.current = setTimeout(() => {
+      isPaused.current = false;
+    }, PAUSE_AFTER_INTERACTION_MS);
+  }, []);
+
+  // IntersectionObserver — only auto-advance when visible
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInView.current = entry.isIntersecting;
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+    startAutoAdvance();
+    return () => {
+      observer.disconnect();
+      if (autoTimer.current) clearInterval(autoTimer.current);
+      if (pauseTimer.current) clearTimeout(pauseTimer.current);
+    };
+  }, [startAutoAdvance]);
+
+  // Reset auto-advance when category changes
+  useEffect(() => {
+    startAutoAdvance();
+  }, [activeCategoryId, startAutoAdvance]);
 
   const selectCategory = (id: string) => {
     setActiveCategoryId(id);
     setActiveImageIndex(0);
     setDirection(1);
+    pauseAutoAdvance();
   };
 
   const selectImage = (index: number) => {
     setDirection(index >= activeImageIndex ? 1 : -1);
     setActiveImageIndex(index);
+    pauseAutoAdvance();
   };
 
   const toggleSaved = (id: string) => {
@@ -129,6 +198,7 @@ export default function BeautyDiscovery() {
 
   return (
     <motion.section
+      ref={sectionRef}
       aria-labelledby="find-a-look-title"
       initial={reducedMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -148,6 +218,7 @@ export default function BeautyDiscovery() {
         </header>
 
         <div className="mt-10 lg:mt-12">
+          {/* Category tabs */}
           <div role="tablist" aria-label="Beauty categories" className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] sm:mx-0 sm:px-0">
             <div className="flex w-max min-w-full gap-6 border-b border-[#EADFDB] pr-5 sm:gap-8">
               {categories.map((category) => {
@@ -180,14 +251,28 @@ export default function BeautyDiscovery() {
             </div>
           </div>
 
+          {/* Tab panel */}
           <div id="find-a-look-panel" role="tabpanel" aria-labelledby={`tab-${activeCategory.id}`} className="mt-6 sm:mt-8">
-            <div className="flex justify-end">
-              <Link href={activeCategory.href} className="group inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-[#2B1B20] transition-colors hover:text-[#7A0B2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4">
-                See all <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">â†’</span>
+
+            {/* ── Row: tagline (left) + See All (right) ── */}
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <p className="text-[13px] leading-relaxed text-[#6F6267] sm:text-[14px]">
+                {activeCategory.tagline}
+              </p>
+              <Link
+                href={activeCategory.href}
+                className="group shrink-0 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.15em] text-[#2B1B20] transition-colors duration-300 hover:text-[#7A0B2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4"
+              >
+                See all
+                <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="relative mx-auto mt-4 aspect-[4/5] w-full max-w-[780px] overflow-hidden rounded-[24px] bg-[#FDF0F2] sm:rounded-[28px]">
+            {/* Subtle divider */}
+            <div className="mb-5 border-b border-[#EADFDB]" />
+
+            {/* ── Image panel ── */}
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[780px] overflow-hidden rounded-[24px] bg-[#FDF0F2] sm:rounded-[28px]">
               <AnimatePresence initial={false} mode="wait" custom={direction}>
                 <motion.div
                   key={activeImage.id}
@@ -202,19 +287,36 @@ export default function BeautyDiscovery() {
                 </motion.div>
               </AnimatePresence>
 
+              {/* Save button */}
               <button type="button" onClick={() => toggleSaved(activeImage.id)} aria-label={savedIds.has(activeImage.id) ? "Remove image from saved" : "Save image"} aria-pressed={savedIds.has(activeImage.id)} className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF9F6]/92 text-[#2B1B20] shadow-sm transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E]">
                 <Heart size={18} strokeWidth={1.7} fill={savedIds.has(activeImage.id) ? "#7A0B2E" : "none"} className={savedIds.has(activeImage.id) ? "text-[#7A0B2E]" : ""} />
               </button>
 
-              <div className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-[linear-gradient(180deg,transparent,rgba(43,27,32,0.5))] px-5 pb-5 pt-12 sm:px-6 sm:pb-6">
+              {/* Counter — bottom left */}
+              <div className="absolute left-5 bottom-5 z-10 sm:left-6 sm:bottom-6">
                 <span className="text-[10px] font-semibold tracking-[0.2em] text-[#FFF9F6]">{String(activeImageIndex + 1).padStart(2, "0")} / {String(activeCategory.items.length).padStart(2, "0")}</span>
-                <div className="flex items-center gap-2" aria-label={`Image ${activeImageIndex + 1} of ${activeCategory.items.length}`}>
-                  {activeCategory.items.map((item, index) => (
-                    <button key={item.id} type="button" onClick={() => selectImage(index)} aria-label={`Show image ${index + 1}`} aria-current={index === activeImageIndex ? "true" : undefined} className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF9F6] ${index === activeImageIndex ? "w-6 bg-[#FFF9F6]" : "w-1.5 bg-[#FFF9F6]/60 hover:bg-[#FFF9F6]"}`} />
-                  ))}
-                </div>
               </div>
             </div>
+
+            {/* ── Pagination dots — centered below the image ── */}
+            <div className="flex items-center justify-center gap-2.5 pt-5" role="tablist" aria-label={`${activeCategory.label} images`}>
+              {activeCategory.items.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => selectImage(index)}
+                  role="tab"
+                  aria-selected={index === activeImageIndex}
+                  aria-label={`Show image ${index + 1}`}
+                  className={`rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-2 ${
+                    index === activeImageIndex
+                      ? "w-7 h-2.5 bg-[#7A0B2E]"
+                      : "w-2.5 h-2.5 bg-[#d6ccc9] hover:bg-[#c9828d]"
+                  }`}
+                />
+              ))}
+            </div>
+
           </div>
         </div>
       </div>
