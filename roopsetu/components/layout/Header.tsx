@@ -44,8 +44,9 @@ export default function Header() {
     >
       <div className="mx-auto flex h-[76px] lg:h-[80px] max-w-[1400px] items-center justify-between px-5 sm:px-8 lg:px-16">
 
-        {/* Mobile Hamburger */}
-        <div className="flex md:hidden flex-1 items-center">
+        {/* ── LEFT ZONE ── */}
+        <div className="flex flex-1 items-center justify-start">
+          {/* Mobile Hamburger */}
           <button
             onClick={() => {
               setIsMenuOpen(!isMenuOpen);
@@ -54,59 +55,78 @@ export default function Header() {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            className="flex h-10 w-10 items-center justify-start text-[#2B1B20] hover:text-[#7A0B2E] transition-colors"
+            className="md:hidden flex h-10 w-10 items-center justify-start text-[#2B1B20] hover:text-[#7A0B2E] transition-colors focus-visible:outline-none"
           >
             {isMenuOpen
               ? <X size={24} strokeWidth={1.5} />
               : <Menu size={24} strokeWidth={1.5} />}
           </button>
+
+          {/* Desktop Logo */}
+          <Link
+            href="/"
+            className="hidden md:flex shrink-0 items-center transition-opacity hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] rounded"
+            aria-label="RoopSetu — Home"
+          >
+            <Image
+              src="/images/roopsetu-logo-perfect.png"
+              alt="RoopSetu"
+              width={160}
+              height={50}
+              className="w-[148px] h-auto object-contain"
+              priority
+            />
+          </Link>
         </div>
 
-        {/* Logo */}
-        <Link
-          href="/"
-          className="shrink-0 flex items-center justify-center md:justify-start transition-opacity hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] rounded"
-          aria-label="RoopSetu — Home"
-        >
-          <Image
-            src="/images/roopsetu-logo-perfect.png"
-            alt="RoopSetu"
-            width={160}
-            height={50}
-            className="w-[120px] lg:w-[148px] h-auto object-contain"
-            priority
-          />
-        </Link>
+        {/* ── CENTER ZONE ── */}
+        <div className="flex shrink-0 items-center justify-center">
+          {/* Mobile Logo */}
+          <Link
+            href="/"
+            className="md:hidden shrink-0 flex items-center justify-center transition-opacity hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] rounded"
+            aria-label="RoopSetu — Home"
+          >
+            <Image
+              src="/images/roopsetu-logo-perfect.png"
+              alt="RoopSetu"
+              width={120}
+              height={40}
+              className="w-[120px] h-auto object-contain"
+              priority
+            />
+          </Link>
 
-        {/* Desktop Navigation */}
-        <nav
-          className="hidden md:flex flex-1 items-center justify-center gap-10"
-          aria-label="Main navigation"
-        >
-          {navigation.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`group relative text-[14px] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] rounded px-1
-                  ${isActive
-                    ? "text-[#7A0B2E]"
-                    : "text-[#2B1B20] hover:text-[#7A0B2E]"
-                  }`}
-                aria-current={isActive ? "page" : undefined}
-              >
-                {item.name}
-                <span
-                  className={`absolute -bottom-0.5 left-0 h-[1.5px] transition-all duration-300 ease-out bg-[#7A0B2E]
-                    ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
-                />
-              </Link>
-            );
-          })}
-        </nav>
+          {/* Desktop Navigation */}
+          <nav
+            className="hidden md:flex items-center gap-8 lg:gap-10"
+            aria-label="Main navigation"
+          >
+            {navigation.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`group relative text-[14px] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] rounded px-1
+                    ${isActive
+                      ? "text-[#7A0B2E]"
+                      : "text-[#2B1B20] hover:text-[#7A0B2E]"
+                    }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-[1.5px] transition-all duration-300 ease-out bg-[#7A0B2E]
+                      ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-        {/* Actions */}
+        {/* ── RIGHT ZONE ── */}
         <div className="flex flex-1 items-center justify-end gap-2 sm:gap-3">
           <button
             onClick={() => {

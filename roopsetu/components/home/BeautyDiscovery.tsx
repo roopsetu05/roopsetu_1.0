@@ -207,70 +207,75 @@ export default function BeautyDiscovery() {
       className="overflow-hidden bg-[#FFF9F6] py-20 sm:py-24 lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-        <header className="max-w-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#7A0B2E]">Find a look</p>
-          <h2 id="find-a-look-title" className="mt-4 font-serif text-[43px] leading-[0.94] tracking-[-0.045em] text-[#2B1B20] sm:text-5xl lg:text-[62px]">
-            Find the look <span className="block italic">that feels like you.</span>
-          </h2>
-          <p className="mt-5 max-w-xl text-[14px] leading-7 text-[#6F6267] sm:text-[15px]">
-            Explore beauty inspiration across nails, makeup, hair, fashion, mehndi and bridal looks.
-          </p>
-        </header>
-
-        <div className="mt-10 lg:mt-12">
-          {/* Category tabs */}
-          <div role="tablist" aria-label="Beauty categories" className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] sm:mx-0 sm:px-0">
-            <div className="flex w-max min-w-full gap-6 border-b border-[#EADFDB] pr-5 sm:gap-8">
-              {categories.map((category) => {
-                const active = category.id === activeCategoryId;
-                return (
-                  <button
-                    key={category.id}
-                    id={`tab-${category.id}`}
-                    role="tab"
-                    type="button"
-                    aria-selected={active}
-                    aria-controls="find-a-look-panel"
-                    tabIndex={active ? 0 : -1}
-                    onClick={() => selectCategory(category.id)}
-                    onKeyDown={(event) => {
-                      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
-                      event.preventDefault();
-                      const index = categories.findIndex((item) => item.id === category.id);
-                      const nextIndex = event.key === "ArrowRight" ? (index + 1) % categories.length : (index - 1 + categories.length) % categories.length;
-                      selectCategory(categories[nextIndex].id);
-                      document.getElementById(`tab-${categories[nextIndex].id}`)?.focus();
-                    }}
-                    className={`relative min-h-11 shrink-0 pb-3 text-[12px] font-semibold uppercase tracking-[0.13em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4 ${active ? "text-[#7A0B2E]" : "text-[#6F6267] hover:text-[#2B1B20]"}`}
-                  >
-                    {category.label}
-                    {active && <motion.span layoutId="find-a-look-active-tab" className="absolute inset-x-0 -bottom-px h-px bg-[#7A0B2E]" transition={{ duration: 0.25 }} />}
-                  </button>
-                );
-              })}
+        <div className="lg:grid lg:grid-cols-12 lg:gap-16 xl:gap-20 lg:items-start">
+          
+          {/* Left Column: Header & Tabs */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32">
+            <header className="max-w-2xl">
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#7A0B2E]">Find a look</p>
+              <h2 id="find-a-look-title" className="mt-4 font-serif text-[43px] leading-[0.94] tracking-[-0.045em] text-[#2B1B20] sm:text-5xl lg:text-[62px]">
+                Find the look <span className="block italic">that feels like you.</span>
+              </h2>
+              <p className="mt-5 max-w-xl text-[14px] leading-7 text-[#6F6267] sm:text-[15px]">
+                Explore beauty inspiration across nails, makeup, hair, fashion, mehndi and bridal looks.
+              </p>
+            </header>
+            <div className="mt-10 lg:mt-8">
+              {/* Category tabs */}
+              <div role="tablist" aria-label="Beauty categories" className="-mx-5 overflow-x-auto px-5 [scrollbar-width:none] sm:mx-0 sm:px-0">
+                <div className="flex w-max min-w-full gap-6 border-b border-[#EADFDB] pr-5 sm:gap-8 lg:flex-col lg:gap-4 lg:border-b-0 lg:border-l lg:pl-6 lg:pr-0 lg:w-auto">
+                  {categories.map((category) => {
+                    const active = category.id === activeCategoryId;
+                    return (
+                      <button
+                        key={category.id}
+                        id={`tab-${category.id}`}
+                        role="tab"
+                        type="button"
+                        aria-selected={active}
+                        aria-controls="find-a-look-panel"
+                        tabIndex={active ? 0 : -1}
+                        onClick={() => selectCategory(category.id)}
+                        onKeyDown={(event) => {
+                          if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                          event.preventDefault();
+                          const index = categories.findIndex((item) => item.id === category.id);
+                          const nextIndex = (event.key === "ArrowRight" || event.key === "ArrowDown") ? (index + 1) % categories.length : (index - 1 + categories.length) % categories.length;
+                          selectCategory(categories[nextIndex].id);
+                          document.getElementById(`tab-${categories[nextIndex].id}`)?.focus();
+                        }}
+                        className={`relative min-h-11 shrink-0 pb-3 text-[12px] font-semibold uppercase tracking-[0.13em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4 lg:text-left lg:py-2 lg:pb-2 lg:min-h-0 ${active ? "text-[#7A0B2E]" : "text-[#6F6267] hover:text-[#2B1B20]"}`}
+                      >
+                        {category.label}
+                        {active && <motion.span layoutId="find-a-look-active-tab" className="absolute inset-x-0 -bottom-px h-px bg-[#7A0B2E] lg:inset-y-0 lg:-left-6 lg:right-auto lg:bottom-auto lg:h-full lg:w-px" transition={{ duration: 0.25 }} />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Tab panel */}
-          <div id="find-a-look-panel" role="tabpanel" aria-labelledby={`tab-${activeCategory.id}`} className="mt-6 sm:mt-8">
-
-            {/* ── Row: tagline (left) + See All (right) ── */}
-            <div className="flex items-center justify-between gap-4 mb-4">
-              <p className="text-[13px] leading-relaxed text-[#6F6267] sm:text-[14px]">
-                {activeCategory.tagline}
-              </p>
-              <Link
-                href={activeCategory.href}
-                className="group shrink-0 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.15em] text-[#2B1B20] transition-colors duration-300 hover:text-[#7A0B2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4"
-              >
-                See all
-                <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
+          {/* Right Column: Image Panel */}
+          <div className="lg:col-span-6 lg:col-start-7 mt-12 lg:mt-0">
+            <div id="find-a-look-panel" role="tabpanel" aria-labelledby={`tab-${activeCategory.id}`}>
+              {/* ── Row: tagline (left) + See All (right) ── */}
+              <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6 lg:justify-end">
+                <p className="text-[13px] leading-relaxed text-[#6F6267] sm:text-[14px] lg:hidden">
+                  {activeCategory.tagline}
+                </p>
+                <Link
+                  href={activeCategory.href}
+                  className="group shrink-0 inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.15em] text-[#2B1B20] transition-colors duration-300 hover:text-[#7A0B2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0B2E] focus-visible:ring-offset-4"
+                >
+                  See all
+                  <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
 
 
             {/* ── Image panel ── */}
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[780px] overflow-hidden rounded-[24px] bg-[#FDF0F2] sm:rounded-[28px]">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-[780px] lg:max-w-[480px] lg:h-[clamp(500px,70vh,700px)] lg:aspect-auto overflow-hidden rounded-[24px] bg-[#FDF0F2] sm:rounded-[28px]">
               <AnimatePresence initial={false} mode="wait" custom={direction}>
                 <motion.div
                   key={activeImage.id}
@@ -281,7 +286,7 @@ export default function BeautyDiscovery() {
                   transition={{ duration: reducedMotion ? 0 : 0.52, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute inset-0"
                 >
-                  <Image src={activeImage.image} alt={activeImage.alt} fill priority={activeCategoryId === "nail-art" && activeImageIndex === 0} sizes="(max-width: 780px) calc(100vw - 40px), 780px" className="object-cover" style={{ objectPosition: activeImage.objectPosition ?? "center" }} />
+                  <Image src={activeImage.image} alt={activeImage.alt} fill priority={activeCategoryId === "nail-art" && activeImageIndex === 0} sizes="(max-width: 1024px) calc(100vw - 40px), 480px" className="object-cover" style={{ objectPosition: activeImage.objectPosition ?? "center" }} />
                 </motion.div>
               </AnimatePresence>
 
@@ -315,6 +320,7 @@ export default function BeautyDiscovery() {
               ))}
             </div>
 
+            </div>
           </div>
         </div>
       </div>

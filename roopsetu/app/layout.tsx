@@ -47,7 +47,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}>
         <Header />
-        {children}
+        <main>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
