@@ -268,8 +268,6 @@ export default function BeautyDiscovery() {
               </Link>
             </div>
 
-            {/* Subtle divider */}
-            <div className="mb-5 border-b border-[#EADFDB]" />
 
             {/* ── Image panel ── */}
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[780px] overflow-hidden rounded-[24px] bg-[#FDF0F2] sm:rounded-[28px]">
